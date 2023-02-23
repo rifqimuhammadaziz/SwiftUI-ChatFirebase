@@ -16,38 +16,44 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                Picker(selection: $isLoginMode, label: Text("Picker Here")) {
-                    Text("Login")
-                        .tag(true)
-                    Text("Create Account")
-                        .tag(false)
+                
+                VStack {
+                    Picker(selection: $isLoginMode, label: Text("Picker Here")) {
+                        Text("Login")
+                            .tag(true)
+                        Text("Create Account")
+                            .tag(false)
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding()
+                    
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: "person.fill")
+                            .font(.system(size: 64))
+                            .padding()
+                    }
+                    
+                    TextField("Email", text: $email)
+                    TextField("Password", text: $password)
+                    
+                    Button {
+                        
+                    } label: {
+                        HStack {
+                            Spacer()
+                            Text("Create Account")
+                                .foregroundColor(.white)
+                                .padding(.vertical, 10)
+                            Spacer()
+                        }
+                        .background(Color.blue)
+                    }
                 }
-                .pickerStyle(SegmentedPickerStyle())
                 .padding()
                 
-                Button {
-                    
-                } label: {
-                    Image(systemName: "person.fill")
-                        .font(.system(size: 64))
-                        .padding()
-                }
                 
-                TextField("Email", text: $email)
-                TextField("Password", text: $password)
-                
-                Button {
-                    
-                } label: {
-                    HStack {
-                        Spacer()
-                        Text("Create Account")
-                            .foregroundColor(.white)
-                            .padding(.vertical, 10)
-                        Spacer()
-                    }
-                    .background(Color.blue)
-                }
             }
             .navigationTitle("Create Account")
         }
