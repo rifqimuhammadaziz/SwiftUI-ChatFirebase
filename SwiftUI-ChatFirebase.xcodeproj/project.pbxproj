@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		370CE0B529B2FDF200B486A3 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370CE0B429B2FDF200B486A3 /* ImagePicker.swift */; };
 		371E5C9A29A64C2200032768 /* SwiftUI_ChatFirebaseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371E5C9929A64C2200032768 /* SwiftUI_ChatFirebaseApp.swift */; };
 		371E5C9C29A64C2200032768 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371E5C9B29A64C2200032768 /* LoginView.swift */; };
 		371E5C9E29A64C2300032768 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 371E5C9D29A64C2300032768 /* Assets.xcassets */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		370CE0B429B2FDF200B486A3 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		371E5C9629A64C2200032768 /* SwiftUI-ChatFirebase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SwiftUI-ChatFirebase.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		371E5C9929A64C2200032768 /* SwiftUI_ChatFirebaseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUI_ChatFirebaseApp.swift; sourceTree = "<group>"; };
 		371E5C9B29A64C2200032768 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 				371E5CAC29A9DE3200032768 /* GoogleService-Info.plist */,
 				371E5C9D29A64C2300032768 /* Assets.xcassets */,
 				371E5C9F29A64C2300032768 /* Preview Content */,
+				370CE0B429B2FDF200B486A3 /* ImagePicker.swift */,
 			);
 			path = "SwiftUI-ChatFirebase";
 			sourceTree = "<group>";
@@ -152,6 +155,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				370CE0B529B2FDF200B486A3 /* ImagePicker.swift in Sources */,
 				371E5C9C29A64C2200032768 /* LoginView.swift in Sources */,
 				371E5C9A29A64C2200032768 /* SwiftUI_ChatFirebaseApp.swift in Sources */,
 			);
