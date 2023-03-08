@@ -18,10 +18,13 @@ class MainMessageViewModel: ObservableObject {
     @Published var chatUser: ChatUser?
     
     init() {
+        DispatchQueue.main.async {
+            self.isUserCurrentlyLoggedOut = FirebaseManager.shared.auth.currentUser?.uid == nil
+        }
         fetchCurrentUser()
     }
     
-    private func fetchCurrentUser() {
+    func fetchCurrentUser() {
         guard let uid = FirebaseManager.shared.auth.currentUser?.uid else {
             self.errorMessage = "Could not find Firebase UID"
             return
@@ -50,6 +53,12 @@ class MainMessageViewModel: ObservableObject {
                 let profileImageUrl = data["profileImageUrl"] as? String ?? "Empty Image"
                 self.chatUser = ChatUser(uid: uid, email: email, profileImageUrl: profileImageUrl)
             }
+    }
+    
+    @Published var isUserCurrentlyLoggedOut = false
+    func handleSignOut() {
+        isUserCurrentlyLoggedOut.toggle()
+        try? FirebaseManager.shared.auth.signOut()
     }
 }
 
@@ -119,11 +128,17 @@ struct MainMessagesView: View {
                 buttons: [
                     .destructive(Text("Sign Out"), action: {
                         print("Sign Out Works!")
+                        vm.handleSignOut()
                     }),
-//                            .default(Text("Default")),
                     .cancel()
                 ]
             )
+        }
+        .fullScreenCover(isPresented: $vm.isUserCurrentlyLoggedOut, onDismiss: nil) {
+            LoginView(didCompleteLoginProcess: {
+                self.vm.isUserCurrentlyLoggedOut = false
+                self.vm.fetchCurrentUser()
+            })
         }
     }
     
