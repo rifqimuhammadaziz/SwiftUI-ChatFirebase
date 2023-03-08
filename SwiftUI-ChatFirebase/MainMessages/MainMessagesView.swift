@@ -8,10 +8,6 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
-struct ChatUser {
-    let uid, email, profileImageUrl: String
-}
-
 class MainMessageViewModel: ObservableObject {
     
     @Published var errorMessage = ""
@@ -48,10 +44,8 @@ class MainMessageViewModel: ObservableObject {
                     return
                 }
                 
-                let uid = data["uid"] as? String ?? "Empty UID"
-                let email = data["email"] as? String ?? "Empty Email"
-                let profileImageUrl = data["profileImageUrl"] as? String ?? "Empty Image"
-                self.chatUser = ChatUser(uid: uid, email: email, profileImageUrl: profileImageUrl)
+                // map to model
+                self.chatUser = .init(data: data)
             }
     }
     
