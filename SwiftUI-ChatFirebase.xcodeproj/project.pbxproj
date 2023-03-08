@@ -12,6 +12,8 @@
 		370CE0BA29B32B4A00B486A3 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 370CE0B929B32B4A00B486A3 /* FirebaseFirestore */; };
 		370CE0BC29B32B4A00B486A3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 370CE0BB29B32B4A00B486A3 /* FirebaseStorage */; };
 		370CE0C129B6CB8600B486A3 /* MainMessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370CE0C029B6CB8600B486A3 /* MainMessagesView.swift */; };
+		370CE0C429B6E7F200B486A3 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370CE0C329B6E7F200B486A3 /* FirebaseManager.swift */; };
+		370CE0C729B8244300B486A3 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 370CE0C629B8244300B486A3 /* SDWebImageSwiftUI */; };
 		371E5C9A29A64C2200032768 /* SwiftUI_ChatFirebaseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371E5C9929A64C2200032768 /* SwiftUI_ChatFirebaseApp.swift */; };
 		371E5C9C29A64C2200032768 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371E5C9B29A64C2200032768 /* LoginView.swift */; };
 		371E5C9E29A64C2300032768 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 371E5C9D29A64C2300032768 /* Assets.xcassets */; };
@@ -22,6 +24,7 @@
 /* Begin PBXFileReference section */
 		370CE0B429B2FDF200B486A3 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		370CE0C029B6CB8600B486A3 /* MainMessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMessagesView.swift; sourceTree = "<group>"; };
+		370CE0C329B6E7F200B486A3 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		371E5C9629A64C2200032768 /* SwiftUI-ChatFirebase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SwiftUI-ChatFirebase.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		371E5C9929A64C2200032768 /* SwiftUI_ChatFirebaseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUI_ChatFirebaseApp.swift; sourceTree = "<group>"; };
 		371E5C9B29A64C2200032768 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -35,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				370CE0C729B8244300B486A3 /* SDWebImageSwiftUI in Frameworks */,
 				370CE0B829B32B4A00B486A3 /* FirebaseAuth in Frameworks */,
 				370CE0BA29B32B4A00B486A3 /* FirebaseFirestore in Frameworks */,
 				370CE0BC29B32B4A00B486A3 /* FirebaseStorage in Frameworks */,
@@ -50,6 +54,14 @@
 				370CE0C029B6CB8600B486A3 /* MainMessagesView.swift */,
 			);
 			path = MainMessages;
+			sourceTree = "<group>";
+		};
+		370CE0C229B6E7DF00B486A3 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				370CE0C329B6E7F200B486A3 /* FirebaseManager.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		371E5C8D29A64C2200032768 = {
@@ -71,6 +83,7 @@
 		371E5C9829A64C2200032768 /* SwiftUI-ChatFirebase */ = {
 			isa = PBXGroup;
 			children = (
+				370CE0C229B6E7DF00B486A3 /* Utils */,
 				370CE0BD29B6CB1900B486A3 /* MainMessages */,
 				371E5C9929A64C2200032768 /* SwiftUI_ChatFirebaseApp.swift */,
 				371E5C9B29A64C2200032768 /* LoginView.swift */,
@@ -110,6 +123,7 @@
 				370CE0B729B32B4A00B486A3 /* FirebaseAuth */,
 				370CE0B929B32B4A00B486A3 /* FirebaseFirestore */,
 				370CE0BB29B32B4A00B486A3 /* FirebaseStorage */,
+				370CE0C629B8244300B486A3 /* SDWebImageSwiftUI */,
 			);
 			productName = "SwiftUI-ChatFirebase";
 			productReference = 371E5C9629A64C2200032768 /* SwiftUI-ChatFirebase.app */;
@@ -141,6 +155,7 @@
 			mainGroup = 371E5C8D29A64C2200032768;
 			packageReferences = (
 				370CE0B629B32B4A00B486A3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				370CE0C529B8244200B486A3 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			productRefGroup = 371E5C9729A64C2200032768 /* Products */;
 			projectDirPath = "";
@@ -171,6 +186,7 @@
 			files = (
 				370CE0B529B2FDF200B486A3 /* ImagePicker.swift in Sources */,
 				370CE0C129B6CB8600B486A3 /* MainMessagesView.swift in Sources */,
+				370CE0C429B6E7F200B486A3 /* FirebaseManager.swift in Sources */,
 				371E5C9C29A64C2200032768 /* LoginView.swift in Sources */,
 				371E5C9A29A64C2200032768 /* SwiftUI_ChatFirebaseApp.swift in Sources */,
 			);
@@ -381,6 +397,14 @@
 				kind = branch;
 			};
 		};
+		370CE0C529B8244200B486A3 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -398,6 +422,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 370CE0B629B32B4A00B486A3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		370CE0C629B8244300B486A3 /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 370CE0C529B8244200B486A3 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
