@@ -51,7 +51,7 @@ class ChatLogViewModel: ObservableObject {
             .document(fromId)
             .collection(toId)
             .order(by: "timestamp")
-            .getDocuments { querySnapshot, error in
+            .addSnapshotListener { querySnapshot, error in
                 if let error = error {
                     self.errorMessage = "Failed to listen messages: \(error)"
                     print(error)
@@ -65,13 +65,6 @@ class ChatLogViewModel: ObservableObject {
                     }
                 })
                 
-//                querySnapshot?.documents.forEach({ queryDocumentSnapshot in
-//                    let data = queryDocumentSnapshot.data()
-//                    let documentId = queryDocumentSnapshot.documentID
-//                    self.chatMessages.append(
-//                        .init(documentId: documentId, data: data)
-//                    ) // every chat will be auto mapped to ChatMessage object
-//                })
             }
     }
     
@@ -220,8 +213,8 @@ struct ChatLogView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             ChatLogView(chatUser: .init(data: [
-                "uid": "VOMjT7qvOccEW1mKArKdULsrmBo2",
-                "email": "rifqimuhammadaziz@gmail.com"
+                "uid": "LjQaad2gKYYP7ePtRbhSTIVkYG12",
+                "email": "fatimahtunnada@gmail.com"
             ]))
         }
     }
