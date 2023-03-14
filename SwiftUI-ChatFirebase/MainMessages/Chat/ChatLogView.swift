@@ -8,15 +8,71 @@
 import SwiftUI
 import Firebase
 
+struct FirebaseConstant {
+    static let fromId = "fromId"
+    static let toId = "toId"
+    static let text = "text"
+}
+
+struct ChatMessage: Identifiable {
+    var id: String { documentId }
+    
+    let documentId: String
+    let fromId, toId, text: String
+    
+    init(documentId: String, data: [String: Any]) {
+        self.documentId = documentId
+        self.fromId = data[FirebaseConstant.fromId] as? String ?? ""
+        self.toId = data[FirebaseConstant.toId] as? String ?? ""
+        self.text = data[FirebaseConstant.text] as? String ?? ""
+    }
+}
+
 class ChatLogViewModel: ObservableObject {
     
     @Published var chatText = ""
     @Published var errorMessage = ""
+    @Published var chatMessages = [ChatMessage]()
     
     let chatUser: ChatUser?
     
     init(chatUser: ChatUser?) {
         self.chatUser = chatUser
+        
+        fetchMessages()
+    }
+    
+    func fetchMessages() {
+        guard let fromId = FirebaseManager.shared.auth.currentUser?.uid else { return }
+        guard let toId = chatUser?.uid else { return }
+        
+        FirebaseManager.shared.firestore
+            .collection("messages")
+            .document(fromId)
+            .collection(toId)
+            .order(by: "timestamp")
+            .getDocuments { querySnapshot, error in
+                if let error = error {
+                    self.errorMessage = "Failed to listen messages: \(error)"
+                    print(error)
+                    return
+                }
+                
+                querySnapshot?.documentChanges.forEach({ change in
+                    if change.type == .added {
+                        let data = change.document.data()
+                        self.chatMessages.append(.init(documentId: change.document.documentID, data: data))
+                    }
+                })
+                
+//                querySnapshot?.documents.forEach({ queryDocumentSnapshot in
+//                    let data = queryDocumentSnapshot.data()
+//                    let documentId = queryDocumentSnapshot.documentID
+//                    self.chatMessages.append(
+//                        .init(documentId: documentId, data: data)
+//                    ) // every chat will be auto mapped to ChatMessage object
+//                })
+            }
     }
     
     func handleSend() {
@@ -32,9 +88,9 @@ class ChatLogViewModel: ObservableObject {
             .document()
         
         let messageData = [
-            "fromId": fromId,
-            "toId": toId,
-            "text": self.chatText,
+            FirebaseConstant.fromId: fromId,
+            FirebaseConstant.toId: toId,
+            FirebaseConstant.text: self.chatText,
             "timestamp": Timestamp()
         ] as [String : Any]
         
@@ -89,20 +145,37 @@ struct ChatLogView: View {
     private var messagesView: some View {
         VStack {
             ScrollView {
-                ForEach(0..<10) { num in
-                    HStack {
-                        Spacer()
-                        
-                        HStack {
-                            Text("Fake Message")
-                                .foregroundColor(.white)
+                ForEach(vm.chatMessages) { message in
+                    VStack {
+                        if message.fromId == FirebaseManager.shared.auth.currentUser?.uid {
+                            HStack {
+                                Spacer()
+                                
+                                HStack {
+                                    Text(message.text)
+                                        .foregroundColor(.white)
+                                }
+                                .padding()
+                                .background(Color.blue)
+                                .cornerRadius(30)
+                            }
+                        } else {
+                            HStack {
+                                HStack {
+                                    Text(message.text)
+                                        .foregroundColor(.black)
+                                }
+                                .padding()
+                                .background(Color.white)
+                                .cornerRadius(30)
+                                Spacer()
+                            }
                         }
-                        .padding()
-                        .background(Color.blue)
-                        .cornerRadius(30)
                     }
                     .padding(.horizontal)
                     .padding(.top, 5)
+                    
+                    
                 }
                 
                 HStack {
@@ -147,8 +220,8 @@ struct ChatLogView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             ChatLogView(chatUser: .init(data: [
-                "uid": "K2aPNBSlGsOOGPu8rmcW6K4DAOj2",
-                "email": "emailtesting1@gmail.com"
+                "uid": "VOMjT7qvOccEW1mKArKdULsrmBo2",
+                "email": "rifqimuhammadaziz@gmail.com"
             ]))
         }
     }
