@@ -15,7 +15,9 @@ struct FirebaseConstant {
     static let timestamp = "timestamp"
     static let profileImageUrl = "profileImageUrl"
     static let email = "email"
+    static let uid = "uid"
 }
+
 
 class ChatLogViewModel: ObservableObject {
     
@@ -23,7 +25,7 @@ class ChatLogViewModel: ObservableObject {
     @Published var errorMessage = ""
     @Published var chatMessages = [ChatMessage]()
     
-    let chatUser: ChatUser?
+    var chatUser: ChatUser?
     
     init(chatUser: ChatUser?) {
         self.chatUser = chatUser
@@ -31,11 +33,16 @@ class ChatLogViewModel: ObservableObject {
         fetchMessages()
     }
     
+    var firestoreListener: ListenerRegistration?
+    
     func fetchMessages() {
         guard let fromId = FirebaseManager.shared.auth.currentUser?.uid else { return }
         guard let toId = chatUser?.uid else { return }
         
-        FirebaseManager.shared.firestore
+        firestoreListener?.remove()
+        chatMessages.removeAll()
+        
+        firestoreListener = FirebaseManager.shared.firestore
             .collection("messages")
             .document(fromId)
             .collection(toId)
@@ -49,8 +56,14 @@ class ChatLogViewModel: ObservableObject {
                 
                 querySnapshot?.documentChanges.forEach({ change in
                     if change.type == .added {
-                        let data = change.document.data()
-                        self.chatMessages.append(.init(documentId: change.document.documentID, data: data))
+                        do {
+                            if let cm = try? change.document.data(as: ChatMessage.self) {
+                                self.chatMessages.append(cm)
+                                print("Appending chatMessage in ChatLogView: \(Date())")
+                            }
+                        } catch {
+                            print("Failed to decode message: \(error)")
+                        }
                     }
                 })
                 
@@ -145,12 +158,12 @@ class ChatLogViewModel: ObservableObject {
 
 struct ChatLogView: View {
     
-    let chatUser: ChatUser?
-    
-    init(chatUser: ChatUser?) {
-        self.chatUser = chatUser
-        self.vm = .init(chatUser: chatUser)
-    }
+//    let chatUser: ChatUser?
+//
+//    init(chatUser: ChatUser?) {
+//        self.chatUser = chatUser
+//        self.vm = .init(chatUser: chatUser)
+//    }
     
     @ObservedObject var vm: ChatLogViewModel
     
@@ -159,13 +172,11 @@ struct ChatLogView: View {
             messagesView
             Text(vm.errorMessage)
         }
-        .navigationTitle(chatUser?.email ?? "")
+        .navigationTitle(vm.chatUser?.email ?? "")
         .navigationBarTitleDisplayMode(.inline)
-//        .navigationBarItems(trailing: Button(action: {
-//            vm.count += 1
-//        }, label: {
-//            Text("Count: \(vm.count)")
-//        }))
+        .onDisappear {
+            vm.firestoreListener?.remove()
+        }
     }
     
     static let emptyScrollToString = "Empty"

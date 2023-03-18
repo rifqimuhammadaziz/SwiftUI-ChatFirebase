@@ -53,10 +53,16 @@ class MainMessageViewModel: ObservableObject {
     }
     
     @Published var recentMessages = [RecentMessage]()
-    private func fetchRecentMessages() {
+    
+    private var firestoreListener: ListenerRegistration?
+    
+    func fetchRecentMessages() {
         guard let uid = FirebaseManager.shared.auth.currentUser?.uid else { return }
         
-        FirebaseManager.shared.firestore
+        firestoreListener?.remove()
+        self.recentMessages.removeAll()
+        
+        firestoreListener = FirebaseManager.shared.firestore
             .collection("recent_messages")
             .document(uid)
             .collection("messages")
@@ -104,6 +110,8 @@ struct MainMessagesView: View {
     
     @ObservedObject private var vm = MainMessageViewModel()
     
+    private var chatLogViewModel = ChatLogViewModel(chatUser: nil)
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -111,8 +119,8 @@ struct MainMessagesView: View {
                 customNavbar
                 messagesView
                 
-                NavigationLink("sss", isActive: $shouldNavigateToChatLogView) {
-                    ChatLogView(chatUser: self.chatUser)
+                NavigationLink("", isActive: $shouldNavigateToChatLogView) {
+                    ChatLogView(vm: chatLogViewModel)
                 }
             }
             .overlay(newMessageButton, alignment: .bottom)
@@ -178,6 +186,7 @@ struct MainMessagesView: View {
             LoginView(didCompleteLoginProcess: {
                 self.vm.isUserCurrentlyLoggedOut = false
                 self.vm.fetchCurrentUser()
+                self.vm.fetchRecentMessages()
             })
         }
     }
@@ -186,8 +195,16 @@ struct MainMessagesView: View {
         ScrollView {
             ForEach(vm.recentMessages) { recentMessage in
                 VStack {
-                    NavigationLink {
-                        Text("Destination Reach")
+                    Button {
+                        let uid = FirebaseManager.shared.auth.currentUser?.uid == recentMessage.fromId ? recentMessage.toId : recentMessage.fromId
+                        self.chatUser = .init(data: [
+                            FirebaseConstant.email: recentMessage.email,
+                            FirebaseConstant.profileImageUrl: recentMessage.profileImageUrl,
+                            FirebaseConstant.uid: uid
+                        ])
+                        self.chatLogViewModel.chatUser = self.chatUser
+                        self.chatLogViewModel.fetchMessages()
+                        self.shouldNavigateToChatLogView.toggle()
                     } label: {
                         HStack(spacing: 16) {
                             WebImage(url: URL(string: recentMessage.profileImageUrl))
@@ -210,8 +227,9 @@ struct MainMessagesView: View {
                             }
                             Spacer()
                             
-                            Text(recentMessage.timestamp.description)
+                            Text(recentMessage.timeAgo)
                                 .font(.system(size: 14, weight: .semibold))
+                                .foregroundColor(Color(.label))
                         }
                     }
                     
@@ -247,6 +265,8 @@ struct MainMessagesView: View {
                 print(user.email)
                 self.shouldNavigateToChatLogView.toggle()
                 self.chatUser = user
+                self.chatLogViewModel.chatUser = user
+                self.chatLogViewModel.fetchMessages()
             })
         }
     }
