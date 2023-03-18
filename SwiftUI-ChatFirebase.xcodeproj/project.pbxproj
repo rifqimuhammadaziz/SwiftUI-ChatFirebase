@@ -25,6 +25,7 @@
 		37277A4829C453E7004609C7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 37277A4729C453E7004609C7 /* FirebaseFirestore */; };
 		37277A4A29C453E7004609C7 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 37277A4929C453E7004609C7 /* FirebaseFirestoreSwift */; };
 		37277A4C29C453E7004609C7 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 37277A4B29C453E7004609C7 /* FirebaseStorage */; };
+		37277A4E29C55569004609C7 /* FirebaseConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37277A4D29C55569004609C7 /* FirebaseConstant.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		371E5CAC29A9DE3200032768 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		37277A4029C44DD2004609C7 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		37277A4229C44DE7004609C7 /* RecentMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentMessage.swift; sourceTree = "<group>"; };
+		37277A4D29C55569004609C7 /* FirebaseConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseConstant.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				370CE0C329B6E7F200B486A3 /* FirebaseManager.swift */,
+				37277A4D29C55569004609C7 /* FirebaseConstant.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 				37277A4129C44DD2004609C7 /* ChatMessage.swift in Sources */,
 				370CE0CA29B88C9800B486A3 /* ChatUser.swift in Sources */,
 				37277A4329C44DE7004609C7 /* RecentMessage.swift in Sources */,
+				37277A4E29C55569004609C7 /* FirebaseConstant.swift in Sources */,
 				370CE0D229BAB78E00B486A3 /* ChatLogView.swift in Sources */,
 				370CE0B529B2FDF200B486A3 /* ImagePicker.swift in Sources */,
 				370CE0C129B6CB8600B486A3 /* MainMessagesView.swift in Sources */,

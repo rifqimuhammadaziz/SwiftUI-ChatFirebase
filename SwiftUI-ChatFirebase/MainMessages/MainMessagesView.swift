@@ -40,15 +40,9 @@ class MainMessageViewModel: ObservableObject {
                     return
                 }
                 
-                self.errorMessage = "123"
-                
-                guard let data = snapshot?.data() else {
-                    self.errorMessage = "No data found"
-                    return
-                }
-                
                 // map to model
-                self.chatUser = .init(data: data)
+                self.chatUser = try? snapshot?.data(as: ChatUser.self)
+                FirebaseManager.shared.currentUser = self.chatUser
             }
     }
     
@@ -197,11 +191,12 @@ struct MainMessagesView: View {
                 VStack {
                     Button {
                         let uid = FirebaseManager.shared.auth.currentUser?.uid == recentMessage.fromId ? recentMessage.toId : recentMessage.fromId
-                        self.chatUser = .init(data: [
-                            FirebaseConstant.email: recentMessage.email,
-                            FirebaseConstant.profileImageUrl: recentMessage.profileImageUrl,
-                            FirebaseConstant.uid: uid
-                        ])
+                        self.chatUser = .init(
+                            id: uid,
+                            uid: uid,
+                            email: recentMessage.email,
+                            profileImageUrl: recentMessage.profileImageUrl
+                        )
                         self.chatLogViewModel.chatUser = self.chatUser
                         self.chatLogViewModel.fetchMessages()
                         self.shouldNavigateToChatLogView.toggle()
